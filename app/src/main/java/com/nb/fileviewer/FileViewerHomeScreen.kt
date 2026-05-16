@@ -1,43 +1,37 @@
 package com.nb.fileviewer
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolean) {
+fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolean, onFileSelected: (Uri) -> Unit) {
     val invertMatrix = ColorMatrix(
         floatArrayOf(
             -1f, 0f, 0f, 0f, 255f, // Red
@@ -51,12 +45,31 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
     documentIcons["word"] = R.drawable.doc_word_icon
     documentIcons["ppt"] = R.drawable.doc_ppt_icon
     documentIcons["excel"] = R.drawable.doc_excel_icon
-    val openedDocumentDetails = remember { mutableStateListOf<FileHistoryDetails>() }
+    val context = LocalContext.current
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri: Uri? ->
+            if(null != uri) {
+                try {
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                val mimeType = context.contentResolver.getType(uri) ?: ""
+                if (mimeType != "") {
+                    onFileSelected(uri)
+                }
+            }
+        }
+    )
     Column(
         modifier = Modifier
             .padding(innerPadding)
             .padding(horizontal = 10.dp, vertical = 5.dp)
-            .fillMaxSize()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
@@ -77,16 +90,12 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
                     ) {
                         IconButton(
                             onClick = {
-                                openedDocumentDetails.add(
-                                    FileHistoryDetails(
-                                        "PDF_File",
-                                        java.time.LocalDateTime.now(),
-                                        documentIcons["pdf"]
-                                    )
+                                filePickerLauncher.launch(
+                                    arrayOf("application/pdf")
                                 )
                             },
                             shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(150.dp)
                         ) {
                             Image(
                                 painter = painterResource(documentIcons.getValue("pdf")),
@@ -103,16 +112,15 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
                     ) {
                         IconButton(
                             onClick = {
-                                openedDocumentDetails.add(
-                                    FileHistoryDetails(
-                                        "Word_File",
-                                        java.time.LocalDateTime.now(),
-                                        documentIcons["word"]
+                                filePickerLauncher.launch(
+                                    arrayOf(
+                                        "application/msword",
+                                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                                     )
                                 )
                             },
                             shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(150.dp)
                         ) {
                             Image(
                                 painter = painterResource(documentIcons.getValue("word")),
@@ -134,16 +142,15 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
                     ) {
                         IconButton(
                             onClick = {
-                                openedDocumentDetails.add(
-                                    FileHistoryDetails(
-                                        "Excel_File",
-                                        java.time.LocalDateTime.now(),
-                                        documentIcons["excel"]
+                                filePickerLauncher.launch(
+                                    arrayOf(
+                                        "application/vnd.ms-excel",
+                                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                     )
                                 )
                             },
                             shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(150.dp)
                         ) {
                             Image(
                                 painter = painterResource(documentIcons.getValue("excel")),
@@ -160,16 +167,15 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
                     ) {
                         IconButton(
                             onClick = {
-                                openedDocumentDetails.add(
-                                    FileHistoryDetails(
-                                        "PPT_File",
-                                        java.time.LocalDateTime.now(),
-                                        documentIcons.getValue("ppt")
+                                filePickerLauncher.launch(
+                                    arrayOf(
+                                        "application/vnd.ms-powerpoint",
+                                        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
                                     )
                                 )
                             },
                             shape = RoundedCornerShape(10.dp),
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(150.dp)
                         ) {
                             Image(
                                 painter = painterResource(documentIcons.getValue("ppt")),
@@ -182,84 +188,8 @@ fun FileViewerHomeScreen(innerPadding: PaddingValues, isDarkThemeEnabled: Boolea
                 }
             }
         }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Absolute.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "History", fontSize = 25.sp, fontWeight = FontWeight.SemiBold)
-        }
-        Spacer(modifier = Modifier.padding(2.dp))
-        if (!openedDocumentDetails.isEmpty()) {
-            Row(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth()
-            ) {
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    items(openedDocumentDetails.size) { index ->
-                        Card(
-                            shape = RoundedCornerShape(5.dp),
-                            elevation = CardDefaults.elevatedCardElevation(15.dp),
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .fillMaxSize(),
-                            border = BorderStroke(1.dp, Color.DarkGray.copy(0.3f))
-                        ) {
-                            Row {
-                                Column {
-                                    Image(
-                                        painter = painterResource(
-                                            openedDocumentDetails[index].iconID!!
-                                        ), contentDescription = "fileIcon",
-                                        colorFilter = invertedColorIcons(
-                                            isDarkThemeEnabled,
-                                            invertMatrix
-                                        ),
-                                        modifier = Modifier
-                                            .size(60.dp)
-                                            .padding(10.dp)
-                                    )
-                                }
-                                Column {
-                                    Text(
-                                        text = openedDocumentDetails[index].fileName,
-                                        fontSize = 25.sp,
-                                        color = if (isDarkThemeEnabled) {
-                                            Color.LightGray
-                                        } else {
-                                            Color.Black
-                                        },
-                                        modifier = Modifier.padding(2.dp)
-                                    )
-                                    Text(
-                                        text = openedDocumentDetails[index].timeOpened.format(
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                        ),
-                                        color = if (isDarkThemeEnabled) {
-                                            Color.Gray
-                                        } else {
-                                            Color.DarkGray
-                                        },
-                                        fontSize = 15.sp,
-                                        textAlign = TextAlign.End,
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
-
-data class FileHistoryDetails(
-    val fileName: String,
-    val timeOpened: java.time.LocalDateTime,
-    val iconID: Int?
-
-)
 
 fun invertedColorIcons(isDarkThemeEnabled: Boolean, invertMatrix: ColorMatrix): ColorFilter? {
     return if (isDarkThemeEnabled) {

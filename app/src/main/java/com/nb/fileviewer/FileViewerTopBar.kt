@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,28 +33,11 @@ fun FileViewerTopBar(isDarkThemeEnabled: Boolean) {
         title = {
             Text(
                 fileName,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
             )
         },
-        actions = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
-                    tint = if (isDarkThemeEnabled) {
-                        Color.White
-                    } else {
-                        Color.Black
-                    }
-                )
-            }
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More Options",
-                )
-            }
-        },
+        actions = {},
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
             navigationIconContentColor = contentColor,
