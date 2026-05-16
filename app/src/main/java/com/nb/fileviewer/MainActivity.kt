@@ -1,15 +1,10 @@
 package com.nb.fileviewer
 
-import android.R
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -46,17 +41,17 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            var currentViewingUri by rememberSaveable { mutableStateOf<Uri?>(incomingUri) }
-            var currentFileType by rememberSaveable { mutableStateOf<String?>(incomingType) }
+            var currentViewingUri by rememberSaveable { mutableStateOf(incomingUri) }
+            var currentFileType by rememberSaveable { mutableStateOf(incomingType) }
 
-            val DarkBackgroundBase = Color(0xFF0D0E10)  // Deep near-black for the bottom/base
-            val DarkBackgroundMid = Color(0xFF16181C)   // Muted dark gray for middle transitions
-            val DarkBackgroundTop = Color(0xFF22252A)
+            val darkBackgroundBase = Color(0xFF0D0E10)  // Deep near-black for the bottom/base
+            val darkBackgroundMid = Color(0xFF16181C)   // Muted dark gray for middle transitions
+            val darkBackgroundTop = Color(0xFF22252A)
             val premiumDarkGradient = Brush.linearGradient(
                 colors = listOf(
-                    DarkBackgroundTop,
-                    DarkBackgroundMid,
-                    DarkBackgroundBase
+                    darkBackgroundTop,
+                    darkBackgroundMid,
+                    darkBackgroundBase
                 ),
                 start = Offset(Float.POSITIVE_INFINITY, 0f), // Top Right
                 end = Offset(0f, Float.POSITIVE_INFINITY)    // Bottom Left
@@ -64,7 +59,6 @@ class MainActivity : ComponentActivity() {
             // 1. Initialize the correct scroll contract behavior state at the root level
             val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
             //FileViewerTheme {
-                val isDarkThemeEnabled = isSystemInDarkTheme()
                 Scaffold(
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                     topBar = { FileViewerTopBar(scrollBehavior) },

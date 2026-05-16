@@ -2,34 +2,24 @@ package com.nb.fileviewer
 
 
 import android.content.Intent
-import android.graphics.Paint
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,18 +29,11 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -60,14 +43,6 @@ fun FileViewerHomeScreen(
     premiumDarkGradient: Brush,
     onFileSelected: (Uri) -> Unit
 ) {
-    val invertMatrix = ColorMatrix(
-        floatArrayOf(
-            -1f, 0f, 0f, 0f, 255f, // Red
-            0f, -1f, 0f, 0f, 255f, // Green
-            0f, 0f, -1f, 0f, 255f, // Blue
-            0f, 0f, 0f, 1f, 0f     // Alpha
-        )
-    )
     val documentIcons = hashMapOf<String, Int>()
     documentIcons["pdf"] = R.drawable.aio_pdf_button_icon
     documentIcons["word"] = R.drawable.aio_word_button_icon
@@ -137,7 +112,7 @@ fun FileViewerHomeScreen(
                 Row(
                     modifier = Modifier
                         .graphicsLayer(alpha = 0.99f) // 2. Crucial: Isolates the blending layer
-                        .drawWithCache() {
+                        .drawWithCache {
                             onDrawWithContent {
                                 drawContent() // 3. Draws the standard white/default icon outline
 
@@ -196,7 +171,7 @@ fun FileViewerHomeScreen(
             ) {
                 Row (modifier = Modifier
                     .graphicsLayer(alpha = 0.99f) // 2. Crucial: Isolates the blending layer
-                    .drawWithCache() {
+                    .drawWithCache {
                         onDrawWithContent {
                             drawContent() // 3. Draws the standard white/default icon outline
 
@@ -253,7 +228,7 @@ fun FileViewerHomeScreen(
 
                 Row(
                     modifier = Modifier.graphicsLayer(alpha = 0.99f) // 2. Crucial: Isolates the blending layer
-                        .drawWithCache() {
+                        .drawWithCache {
                             onDrawWithContent {
                                 drawContent() // 3. Draws the standard white/default icon outline
 
@@ -271,7 +246,7 @@ fun FileViewerHomeScreen(
                             contentDescription = "Excel",
                             modifier = Modifier.size(100.dp)
                                 .graphicsLayer(alpha = 0.99f) // 2. Crucial: Isolates the blending layer
-                                .drawWithCache() {
+                                .drawWithCache {
                                     onDrawWithContent {
                                         drawContent() // 3. Draws the standard white/default icon outline
 

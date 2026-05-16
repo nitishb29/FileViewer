@@ -2,11 +2,10 @@ package com.nb.fileviewer
 
 import android.content.Context
 import android.net.Uri
-import org.apache.poi.ss.extractor.ExcelExtractor
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.apache.poi.xssf.extractor.XSSFExcelExtractor
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.hssf.extractor.ExcelExtractor as HSSFExcelExtractor
 
 fun readExcelFile(context: Context, fileUri: Uri): List<List<String>> {
