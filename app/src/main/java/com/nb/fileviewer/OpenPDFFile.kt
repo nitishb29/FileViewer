@@ -8,7 +8,7 @@ import android.os.ParcelFileDescriptor
 import java.io.File
 import java.io.FileOutputStream
 
-class NativePdfReader(context: Context, uri: Uri) {
+class OpenPDFFile(context: Context, uri: Uri) {
     private var fileDescriptor: ParcelFileDescriptor? = null
     private var pdfRenderer: PdfRenderer? = null
 

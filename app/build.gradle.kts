@@ -61,7 +61,6 @@ dependencies {
     //Icons
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
-
     //other docs dependency
     // Apache POI libraries for reading Microsoft Office Formats
     implementation("org.apache.poi:poi:5.5.1")

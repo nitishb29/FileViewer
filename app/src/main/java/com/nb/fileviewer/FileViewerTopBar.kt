@@ -1,47 +1,39 @@
 package com.nb.fileviewer
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FileViewerTopBar(isDarkThemeEnabled: Boolean) {
+fun FileViewerTopBar(scrollBehavior: TopAppBarScrollBehavior) {
     val fileName = "AIO File Reader"
-    val contentColor = if (isDarkThemeEnabled) {
-        Color.White
-    } else {
-        Color.Black
-    }
-    val containerColor = if (isDarkThemeEnabled) {
-        MaterialTheme.colorScheme.background
-    } else {
-        MaterialTheme.colorScheme.background
-    }
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Text(
                 fileName,
                 fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center
+                color =  Color.White.copy(0.7f),
+                fontSize = 40.sp
             )
         },
         actions = {},
+        // FIX: Explicitly set every scroll state container color slot to transparent
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = containerColor,
-            navigationIconContentColor = contentColor,
-            actionIconContentColor = contentColor
-        )
+            containerColor = Color.Transparent,          // Idle state background
+            scrolledContainerColor = Color.Transparent.copy(0.5f),  // Background color while user is actively scrolling
+            titleContentColor = Color.White.copy(0.7f)
+        ),
+        scrollBehavior = scrollBehavior
     )
 }
