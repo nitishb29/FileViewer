@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(0),
-            navigationBarStyle = SystemBarStyle.dark(0)
+            //navigationBarStyle = SystemBarStyle.dark(0)
         )
 
         // Check if the activity was started with a file URI (Intent.ACTION_VIEW)
@@ -43,10 +43,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             var currentViewingUri by rememberSaveable { mutableStateOf(incomingUri) }
             var currentFileType by rememberSaveable { mutableStateOf(incomingType) }
-
-            val darkBackgroundBase = Color(0xFF0D0E10)  // Deep near-black for the bottom/base
-            val darkBackgroundMid = Color(0xFF16181C)   // Muted dark gray for middle transitions
-            val darkBackgroundTop = Color(0xFF22252A)
+            val darkBackgroundBase = Color(0xABFF9800) // Deep near-black for the bottom/base
+            val darkBackgroundMid = Color(0xFF1D1301)   // Muted dark gray for middle transitions
+            val darkBackgroundTop =  Color(0xFF0E0801)
             val premiumDarkGradient = Brush.linearGradient(
                 colors = listOf(
                     darkBackgroundTop,
@@ -61,8 +60,8 @@ class MainActivity : ComponentActivity() {
             //FileViewerTheme {
                 Scaffold(
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                    topBar = { FileViewerTopBar(scrollBehavior) },
-                    containerColor = Color.Transparent
+                    topBar = { FileViewerTopBar(scrollBehavior, premiumDarkGradient) },
+                    //containerColor = Color.Transparent
                 ) { innerPadding ->
                     if (currentViewingUri != null && currentFileType != null) {
                         when (currentFileType) {
