@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -82,7 +83,7 @@ fun FileViewerHomeScreen(
             .padding(innerPadding)
             .fillMaxSize()
             .background(premiumDarkGradient),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val glassColor = Color.White.copy(alpha = 0.4f)
@@ -125,7 +126,7 @@ fun FileViewerHomeScreen(
             Text(
                 "AIO File Reader",
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 50.sp,
+                fontSize = 35.sp,
                 color = Color.White.copy(0.6f),
                 modifier = Modifier.padding(10.dp)
             )
@@ -133,17 +134,16 @@ fun FileViewerHomeScreen(
         Box(
             modifier = Modifier
                 .padding(20.dp)
-                .height(400.dp)
-                //.weight(0.5f)
+                .weight(1f)
                 .clip(RoundedCornerShape(24.dp))
                 .background(glassColor.copy(0.1f)),
         ) {
             Column(
                 modifier = Modifier
-                    .padding(18.dp)
-                    //.size(300.dp)
+                    .fillMaxSize()
+                    .padding(20.dp)
                     .background(Color.Transparent),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
@@ -169,13 +169,16 @@ fun FileViewerHomeScreen(
 
 
                         },
-                        modifier = Modifier.size(150.dp),
+                        modifier = Modifier.size(135.dp),
                         colors = CardDefaults.cardColors(darkGlassColor.copy(0.2f)),
                         border = ButtonDefaults.outlinedButtonBorder(true),
                         shape = RoundedCornerShape(pdfAnimatedCornerRadius.value)
                     ) {
                         Column(
-                            modifier = Modifier.padding(25.dp)
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
                                 painter = painterResource(documentIcons.getValue("pdf")),
@@ -210,13 +213,16 @@ fun FileViewerHomeScreen(
                                 }
                             }
                         },
-                        modifier = Modifier.size(150.dp),
+                        modifier = Modifier.size(135.dp),
                         colors = CardDefaults.cardColors(darkGlassColor.copy(0.2f)),
                         border = ButtonDefaults.outlinedButtonBorder(true),
                         shape = RoundedCornerShape(wordAnimatedCornerRadius.value)
                     ) {
                         Column(
-                            modifier = Modifier.padding(25.dp)
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
                                 painter = painterResource(documentIcons.getValue("word")),
@@ -261,13 +267,16 @@ fun FileViewerHomeScreen(
                             }
 
                         },
-                        modifier = Modifier.size(150.dp),
+                        modifier = Modifier.size(135.dp),
                         colors = CardDefaults.cardColors(darkGlassColor.copy(0.2f)),
                         border = ButtonDefaults.outlinedButtonBorder(true),
                         shape = RoundedCornerShape(excelAnimatedCornerRadius.value)
                     ) {
                         Column(
-                            modifier = Modifier.padding(25.dp)
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
                                 painter = painterResource(documentIcons.getValue("excel")),
@@ -304,13 +313,16 @@ fun FileViewerHomeScreen(
                             }
 
                         },
-                        modifier = Modifier.size(150.dp),
+                        modifier = Modifier.size(135.dp),
                         colors = CardDefaults.cardColors(darkGlassColor.copy(0.2f)),
                         border = ButtonDefaults.outlinedButtonBorder(true),
                         shape = RoundedCornerShape(pptAnimatedCornerRadius.value)
                     ) {
                         Column(
-                            modifier = Modifier.padding(25.dp)
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
                                 painter = painterResource(documentIcons.getValue("ppt")),
@@ -335,7 +347,6 @@ fun FileViewerHomeScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .clip(RoundedCornerShape(24.dp))
-                //.border(BorderStroke(2.dp, glassBorder))
                 .background(glassColor.copy(0.1f))
         ) {
             Box(
@@ -345,10 +356,12 @@ fun FileViewerHomeScreen(
             )
             Column(
                 modifier = Modifier.padding(10.dp),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
                     modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     Text(
@@ -362,6 +375,7 @@ fun FileViewerHomeScreen(
                 }
                 Row(
                     modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     Text(
@@ -370,7 +384,8 @@ fun FileViewerHomeScreen(
                         fontFamily = FontFamily.Serif,
                         fontSize = 30.sp,
                         color = Color.White.copy(0.80f),
-                        modifier = Modifier.padding(5.dp)
+                        modifier = Modifier.padding(5.dp),
+                        textAlign = TextAlign.Center
                     )
                 }
             }
